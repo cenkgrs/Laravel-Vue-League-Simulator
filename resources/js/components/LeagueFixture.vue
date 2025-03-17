@@ -19,8 +19,14 @@ console.log(props);
             <DataTable :value="props.teams" stripedRows responsiveLayout="scroll">
                 <Column field="name" header="Team"></Column>
                 <Column field="points" header="P"></Column>
-                <Column field="scored" header="S"></Column>
-                <Column field="conceded" header="C"></Column>
+                <Column field="wins" header="W"></Column>
+                <Column field="draws" header="D"></Column>
+                <Column field="losses" header="L"></Column>
+                <Column header="GD">
+                    <template #body="slotProps">
+                        <span>{{ slotProps.data.scored - slotProps.data.conceded }}</span>
+                    </template>
+                </Column>
             </DataTable>
 
         </div>
@@ -65,7 +71,7 @@ console.log(props);
             </DataTable>
 
         </div>
-        
+
     </div>
-   
+
 </template>

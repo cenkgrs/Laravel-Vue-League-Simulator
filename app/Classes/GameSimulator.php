@@ -16,26 +16,35 @@ class GameSimulator
         $game->homeScore += $score1;
         $game->awayScore += $score2;
 
-        $homeTeam->scored = $score1;
-        $homeTeam->conceded = $score2;
+        $homeTeam->scored += $score1;
+        $homeTeam->conceded += $score2;
 
-        $awayTeam->scored = $score1;
-        $awayTeam->conceded = $score2;
+        $awayTeam->scored += $score2;
+        $awayTeam->conceded += $score1;
 
         // First team won
         if ($score1 > $score2) {
             $homeTeam->addPoints(3);
+
+            $homeTeam->wins++;
+            $awayTeam->losses++;
 
             $homeTeam->recordMatch('W');
             $awayTeam->recordMatch('L');
         } elseif ($score2 > $score1) {
             $awayTeam->addPoints(3);
 
+            $homeTeam->losses++;
+            $awayTeam->wins++;
+
             $homeTeam->recordMatch('L');
             $awayTeam->recordMatch('W');
         } else { // Draw
             $homeTeam->addPoints(1);
             $awayTeam->addPoints(1);
+
+            $homeTeam->draws++;
+            $awayTeam->draws++;
 
             $homeTeam->recordMatch('D');
             $awayTeam->recordMatch('D');

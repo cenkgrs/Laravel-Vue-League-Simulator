@@ -8,6 +8,10 @@ class Team {
     public int $points = 0;
     public int $scored = 0;
     public int $conceded = 0;
+
+    public int $wins = 0;
+    public int $losses = 0;
+    public int $draws = 0;
     private array $lastMatches = [];
 
     public function __construct(string $name) {

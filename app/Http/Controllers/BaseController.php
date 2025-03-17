@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Classes\GameSimulator;
+use App\Classes\LeagueSimulator;
 use Illuminate\Http\Request;
 use App\Classes\League;
 use App\Classes\Team;
@@ -41,9 +42,9 @@ class BaseController extends Controller
         $i = 0;
 
         // Play this weeks matches
-        $league->getGames()->each(function ($game) use (&$gameSimulator, &$i, $league) {
-            if ($i == $league->getWeeklyMatchCount) {
-                return;
+        foreach ($league->getGames() as $game) {
+            if ($i == $league->getWeeklyMatchCount()) {
+                break;
             }
 
             if (!$game->isPlayed()) {
@@ -51,7 +52,7 @@ class BaseController extends Controller
 
                 $i++;
             }
-        });
+        }
 
         return response()->json(['matches' => $league->getGames(), 'weeklyMatchCount' => $league->getWeeklyMatchCount()]);
     }
