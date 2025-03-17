@@ -1,60 +1,71 @@
-<template>
-    <div class="league-fixture">
-        <h2>League Fixtures</h2>
-
-        <DataTable :value="fixtures" stripedRows responsiveLayout="scroll">
-            <Column field="matchday" header="Matchday"></Column>
-            <Column field="homeTeam" header="Home Team"></Column>
-            <Column field="awayTeam" header="Away Team"></Column>
-            <Column field="date" header="Date"></Column>
-            <Column field="time" header="Time"></Column>
-            <Column>
-                <template #body="slotProps">
-                    <Button label="Details" icon="pi pi-search" class="p-button-sm p-button-outlined"
-                        @click="viewDetails(slotProps.data)" />
-                </template>
-            </Column>
-        </DataTable>
-
-        <Dialog v-model:visible="showDialog" header="Match Details" :modal="true" :closable="true">
-            <div v-if="selectedFixture">
-                <p><strong>Matchday:</strong> {{ selectedFixture.matchday }}</p>
-                <p><strong>Home Team:</strong> {{ selectedFixture.homeTeam }}</p>
-                <p><strong>Away Team:</strong> {{ selectedFixture.awayTeam }}</p>
-                <p><strong>Date:</strong> {{ selectedFixture.date }}</p>
-                <p><strong>Time:</strong> {{ selectedFixture.time }}</p>
-            </div>
-        </Dialog>
-    </div>
-</template>
-  
 <script setup>
+
 import { ref } from "vue";
 import { DataTable } from "primevue";
 import { Column } from "primevue";
-import { Dialog } from "primevue";
 import { Button } from 'primevue';
 
+const props = defineProps(['fixture', 'teams', 'weeklyMatchCount']);
 
-const fixtures = ref([
-    { matchday: 1, homeTeam: "Team A", awayTeam: "Team B", date: "2025-04-10", time: "18:00" },
-    { matchday: 1, homeTeam: "Team C", awayTeam: "Team D", date: "2025-04-11", time: "20:00" },
-    { matchday: 2, homeTeam: "Team A", awayTeam: "Team C", date: "2025-04-17", time: "19:00" },
-]);
-
-const showDialog = ref(false);
-const selectedFixture = ref(null);
-
-const viewDetails = (fixture) => {
-    selectedFixture.value = fixture;
-    showDialog.value = true;
-};
+console.log(props);
 
 </script>
-  
-<style scoped>
-.league-fixture {
-    padding: 20px;
-}
-</style>
-  
+
+<template>
+    <div class="grid">
+        <div class="col-4">
+            <h2>Point Table</h2>
+
+            <DataTable :value="props.teams" stripedRows responsiveLayout="scroll">
+                <Column field="name" header="Team"></Column>
+                <Column field="points" header="P"></Column>
+                <Column field="scored" header="S"></Column>
+                <Column field="conceded" header="C"></Column>
+            </DataTable>
+
+        </div>
+        <div class="col-4">
+
+            <h2>Fixture</h2>
+
+            <DataTable :value="props.fixture" stripedRows responsiveLayout="scroll">
+                <Column header="Home Team">
+                    <template #body="slotProps">
+                        <span>{{ slotProps.data.homeTeam.name }}</span>
+                    </template>
+                </Column>
+                <Column header="Away Team">
+                    <template #body="slotProps">
+                        <span>{{ slotProps.data.awayTeam.name }}</span>
+                    </template>
+                </Column>
+                <Column header="Score">
+                    <template #body="slotProps">
+                        <span v-if="slotProps.data.played">{{ slotProps.data.homeScore + " - "  + slotProps.data.awayScore }}</span>
+                        <span v-else>{{ " - "  }}</span>
+                    </template>
+                </Column>
+            </DataTable>
+
+        </div>
+
+        <div class="col-4">
+
+            <h2>Prediction of Championship</h2>
+
+            <DataTable :value="props.fixtures" stripedRows responsiveLayout="scroll">
+                <Column field="homeTeam" header="Home Team"></Column>
+                <Column field="awayTeam" header="Away Team"></Column>
+                <Column>
+                    <template #body="slotProps">
+                        <span v-if="slotProps.data.played">{{ slotProps.data.homeScore + " - "  + slotProps.data.awayScore }}</span>
+                        <span v-if="slotProps.data.played">{{ " - "  }}</span>
+                    </template>
+                </Column>
+            </DataTable>
+
+        </div>
+        
+    </div>
+   
+</template>

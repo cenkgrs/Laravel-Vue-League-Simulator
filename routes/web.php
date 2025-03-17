@@ -9,5 +9,8 @@ Route::get('/', function () {
 });
 
 Route::post('/prepare-league', [BaseController::class, 'prepareLeague'])->name('prepareLeague');
-Route::get('/simulate-match', [BaseController::class, 'simulateMatch'])->name('simulateMatch');
+Route::get('/simulate-week', [BaseController::class, 'simulateWeek'])->name('simulateWeek');
 Route::get('/simulate-league', [BaseController::class, 'simulateLeague'])->name('simulateLeague');
+
+Route::get('/get-fixture', [BaseController::class, 'getFixture'])->name('getFixture');
+

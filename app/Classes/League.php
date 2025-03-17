@@ -28,7 +28,7 @@ class League {
             array_splice($this->teams, 1, 0, array_splice($this->teams, -1, 1));
         }
 
-        $this->weekMatchCount = count($this->games) / 2;
+        $this->weekMatchCount = $teamsCount / 2;
     }
 
     public function getWeeklyMatchCount(): int

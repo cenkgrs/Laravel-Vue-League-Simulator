@@ -7,13 +7,14 @@ import { ref } from "vue";
 import InputText from 'primevue/inputtext';
 import { Button } from "primevue";
 import { Message } from 'primevue';
-
 import axios from "axios";
 
 const teamList = ref([]);
 const teamName = ref('');
 
 const message = ref('');
+
+const emit = defineEmits(["started"]);
 
 const addTeam = () => {
     teamList.value.push(teamName.value);
@@ -24,32 +25,30 @@ const prepareLeague = () => {
     if (teamList.value.length % 2 !== 0) {
         message.value = 'Please enter an even number of teams';
 
-        return false;
-
         setTimeout(function () {
             message.value = '';
         }, 3000)
 
+        return false;
     }
 
     // Send request
-    axios.post('/prepare-league', {"teams": teamList.value}).then(
-        response => (console.log(response))).catch(error => console.log(error)
+    axios.post('/prepare-league', { "teams": teamList.value }).then(
+        response => (
+            emit('started', true))
     );
 }
 </script>
 
 
 <template>
-
-
     <Card>
         <template #title class="text-center">
             <div class="text-center">Championship League</div>
         </template>
         <template #content>
 
-        <Message v-if="message" severity="success" :life="3000">{{ message }}</Message>
+            <Message v-if="message" severity="success" :life="3000">{{ message }}</Message>
 
 
             <div class="grid mt-5">
@@ -63,7 +62,7 @@ const prepareLeague = () => {
                         <Button severity="success" label="Add Team" @click="addTeam()" />
                     </div>
                 </div>
-                  <div class="col-6">
+                <div class="col-6">
                     <p class="mb-5">Teams</p>
 
                     <div v-for="team in teamList">

@@ -29,7 +29,7 @@ class BaseController extends Controller
         // Put league instance to session for further usage
         Session::put('league', $league);
 
-        return response()->json(['league' => $league->getMatches()]);
+        return response()->json(['status' => true]);
     }
 
     public function simulateWeek()
@@ -53,11 +53,18 @@ class BaseController extends Controller
             }
         });
 
-        return response()->json(['league' => $league->getMatches(), 'weeklyMatchCount' => $league->getWeeklyMatchCount()]);
+        return response()->json(['matches' => $league->getGames(), 'weeklyMatchCount' => $league->getWeeklyMatchCount()]);
     }
 
     public function simulateLeague()
     {
 
+    }
+
+    public function getFixture()
+    {
+        $league = Session::get('league');
+
+        return response()->json(['teams' => $league->getTeams(), 'matches' => $league->getGames(), 'weeklyMatchCount' => $league->getWeeklyMatchCount()]);
     }
 }
