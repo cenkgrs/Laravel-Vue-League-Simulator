@@ -24,6 +24,8 @@ const prepareLeague = () => {
     if (teamList.value.length % 2 !== 0) {
         message.value = 'Please enter an even number of teams';
 
+        return false;
+
         setTimeout(function () {
             message.value = '';
         }, 3000)
@@ -31,8 +33,8 @@ const prepareLeague = () => {
     }
 
     // Send request
-    axios.get('/prepare-league').then(
-        response => (console.log(response))).catch(error => console.log('error')
+    axios.post('/prepare-league', {"teams": teamList.value}).then(
+        response => (console.log(response))).catch(error => console.log(error)
     );
 }
 </script>
