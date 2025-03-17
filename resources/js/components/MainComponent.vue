@@ -1,13 +1,18 @@
 <script setup>
-    import { ref } from 'vue'
+import { ref } from 'vue'
 
-    const count = ref(1)
-    import { Button } from 'primevue';
+import LeagueFixture from './LeagueFixture.vue'
+import LeagueStarter from './LeagueStarter.vue'
 
-    import LeagueFixture from './LeagueFixture.vue'
-    
+const started = ref(false);
+
 </script>
 
 <template>
-    <LeagueFixture />
+    <div class="m-8">
+
+        <LeagueStarter v-if="!started" />
+
+        <LeagueFixture v-else />
+    </div>
 </template>
