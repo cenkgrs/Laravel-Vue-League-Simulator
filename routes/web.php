@@ -13,4 +13,5 @@ Route::get('/simulate-week', [BaseController::class, 'simulateWeek'])->name('sim
 Route::get('/simulate-league', [BaseController::class, 'simulateLeague'])->name('simulateLeague');
 
 Route::get('/get-fixture', [BaseController::class, 'getFixture'])->name('getFixture');
+Route::get('/reset-league', [BaseController::class, 'resetLeague'])->name('resetLeague');
 

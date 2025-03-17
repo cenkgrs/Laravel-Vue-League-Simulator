@@ -4,6 +4,7 @@ import { ref } from 'vue'
 import LeagueFixture from './LeagueFixture.vue'
 import LeagueStarter from './LeagueStarter.vue'
 import axios from "axios";
+import {Button} from "primevue";
 
 const started = ref(false);
 
@@ -27,8 +28,30 @@ const getFixture = () => {
             fixture.value = response.data.matches;
             odds.value = response.data.odds;
             weeklyMatchCount.value = response.data.weeklyMatchCount;
+        }
+    );
+}
 
-            console.log(fixture.value);
+const simulateWeek = () => {
+
+    axios.get('simulate-week').then(
+        response => {
+            teams.value = response.data.teams;
+            fixture.value = response.data.matches;
+            odds.value = response.data.odds;
+            weeklyMatchCount.value = response.data.weeklyMatchCount;
+        }
+    );
+}
+
+const resetLeague = () => {
+
+    axios.get('reset-league').then(
+        response => {
+            teams.value = response.data.teams;
+            fixture.value = response.data.matches;
+            odds.value = response.data.odds;
+            weeklyMatchCount.value = response.data.weeklyMatchCount;
         }
     );
 }
@@ -40,6 +63,16 @@ const getFixture = () => {
 
         <LeagueStarter v-if="!started" @started="start" />
 
-        <LeagueFixture v-else :fixture="fixture" :teams="teams" :odds="odds" :weeklyMatchCount="weeklyMatchCount"/>
+        <template v-else>
+            <LeagueFixture :fixture="fixture" :teams="teams" :odds="odds" :weeklyMatchCount="weeklyMatchCount"/>
+
+            <div  class="grid mt-8 flex gap-3 justify-content-center">
+                <Button severity="info" label="Simulate League" @click="simulateLeague()"/>
+                <Button label="Simulate Week" @click="simulateWeek()"/>
+                <Button severity="danger" label="Reset League" @click="resetLeague()"/>
+            </div>
+        </template>
+
+
     </div>
 </template>

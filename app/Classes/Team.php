@@ -40,4 +40,9 @@ class Team {
         }
         return $factor;
     }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
 }

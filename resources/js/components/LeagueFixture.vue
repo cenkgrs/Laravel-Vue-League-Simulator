@@ -7,7 +7,6 @@ import { Button } from 'primevue';
 
 const props = defineProps(['fixture', 'teams', 'odds', 'weeklyMatchCount']);
 
-console.log(props);
 
 </script>
 

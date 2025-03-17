@@ -54,7 +54,12 @@ class BaseController extends Controller
             }
         }
 
-        return response()->json(['matches' => $league->getGames(), 'weeklyMatchCount' => $league->getWeeklyMatchCount()]);
+        Session::put('league', $league);
+
+        $leagueSimulator = new LeagueSimulator($league, 1000);
+        $odds = $leagueSimulator->simulateChampionshipOdds();
+
+        return response()->json(['teams' => $league->getTeams(), 'matches' => $league->getGames(), 'odds' => $odds, 'weeklyMatchCount' => $league->getWeeklyMatchCount()]);
     }
 
     public function simulateLeague()
@@ -65,6 +70,29 @@ class BaseController extends Controller
     public function getFixture()
     {
         $league = Session::get('league');
+
+        $leagueSimulator = new LeagueSimulator($league, 1000);
+        $odds = $leagueSimulator->simulateChampionshipOdds();
+
+        return response()->json(['teams' => $league->getTeams(), 'matches' => $league->getGames(), 'odds' => $odds, 'weeklyMatchCount' => $league->getWeeklyMatchCount()]);
+    }
+
+    public function resetLeague()
+    {
+        $league = Session::get('league');
+
+        $teams = $league->getTeams();
+
+        $league = new League();
+
+        foreach ($teams as $team) {
+            $league->addTeam(new Team($team->getName()));
+        }
+
+        $league->generateFixture();
+
+        // Put league instance to session for further usage
+        Session::put('league', $league);
 
         $leagueSimulator = new LeagueSimulator($league, 1000);
         $odds = $leagueSimulator->simulateChampionshipOdds();
