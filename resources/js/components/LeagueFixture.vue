@@ -5,7 +5,7 @@ import { DataTable } from "primevue";
 import { Column } from "primevue";
 import { Button } from 'primevue';
 
-const props = defineProps(['fixture', 'teams', 'weeklyMatchCount']);
+const props = defineProps(['fixture', 'teams', 'odds', 'weeklyMatchCount']);
 
 console.log(props);
 
@@ -59,15 +59,9 @@ console.log(props);
 
             <h2>Prediction of Championship</h2>
 
-            <DataTable :value="props.fixtures" stripedRows responsiveLayout="scroll">
-                <Column field="homeTeam" header="Home Team"></Column>
-                <Column field="awayTeam" header="Away Team"></Column>
-                <Column>
-                    <template #body="slotProps">
-                        <span v-if="slotProps.data.played">{{ slotProps.data.homeScore + " - "  + slotProps.data.awayScore }}</span>
-                        <span v-if="slotProps.data.played">{{ " - "  }}</span>
-                    </template>
-                </Column>
+            <DataTable :value="props.odds" stripedRows responsiveLayout="scroll">
+                <Column field="team" header="Team"></Column>
+                <Column field="odd" header="Percentage"></Column>
             </DataTable>
 
         </div>

@@ -66,6 +66,9 @@ class BaseController extends Controller
     {
         $league = Session::get('league');
 
-        return response()->json(['teams' => $league->getTeams(), 'matches' => $league->getGames(), 'weeklyMatchCount' => $league->getWeeklyMatchCount()]);
+        $leagueSimulator = new LeagueSimulator($league, 1000);
+        $odds = $leagueSimulator->simulateChampionshipOdds();
+
+        return response()->json(['teams' => $league->getTeams(), 'matches' => $league->getGames(), 'odds' => $odds, 'weeklyMatchCount' => $league->getWeeklyMatchCount()]);
     }
 }

@@ -22,6 +22,17 @@ const addTeam = () => {
 }
 
 const prepareLeague = () => {
+    
+    if (teamList.value.length < 4) {
+        message.value = 'Please enter at leats 4 teams';
+
+        setTimeout(function () {
+            message.value = '';
+        }, 3000)
+
+        return false;
+    }
+
     if (teamList.value.length % 2 !== 0) {
         message.value = 'Please enter an even number of teams';
 

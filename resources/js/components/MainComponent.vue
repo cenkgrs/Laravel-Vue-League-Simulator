@@ -9,6 +9,7 @@ const started = ref(false);
 
 const teams = ref([]);
 const fixture = ref([]);
+const odds = ref([]);
 const weeklyMatchCount = ref(0);
 
 const start = async () => {
@@ -24,6 +25,7 @@ const getFixture = () => {
         response => {
             teams.value = response.data.teams;
             fixture.value = response.data.matches;
+            odds.value = response.data.odds;
             weeklyMatchCount.value = response.data.weeklyMatchCount;
 
             console.log(fixture.value);
@@ -38,6 +40,6 @@ const getFixture = () => {
 
         <LeagueStarter v-if="!started" @started="start" />
 
-        <LeagueFixture v-else :fixture="fixture" :teams="teams" :weeklyMatchCount="weeklyMatchCount"/>
+        <LeagueFixture v-else :fixture="fixture" :teams="teams" :odds="odds" :weeklyMatchCount="weeklyMatchCount"/>
     </div>
 </template>
