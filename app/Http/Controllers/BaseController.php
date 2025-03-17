@@ -64,7 +64,24 @@ class BaseController extends Controller
 
     public function simulateLeague()
     {
+        $league = Session::get('league');
 
+        $gameSimulator = new GameSimulator();
+
+        // Play this weeks matches
+        foreach ($league->getGames() as $game) {
+
+            if (!$game->isPlayed()) {
+                $gameSimulator->playGame($game);
+            }
+        }
+
+        Session::put('league', $league);
+
+        $leagueSimulator = new LeagueSimulator($league, 1000);
+        $odds = $leagueSimulator->simulateChampionshipOdds();
+
+        return response()->json(['teams' => $league->getTeams(), 'matches' => $league->getGames(), 'odds' => $odds, 'weeklyMatchCount' => $league->getWeeklyMatchCount()]);
     }
 
     public function getFixture()

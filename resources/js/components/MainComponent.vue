@@ -44,6 +44,18 @@ const simulateWeek = () => {
     );
 }
 
+const simulateLeague = () => {
+
+axios.get('simulate-league').then(
+    response => {
+        teams.value = response.data.teams;
+        fixture.value = response.data.matches;
+        odds.value = response.data.odds;
+        weeklyMatchCount.value = response.data.weeklyMatchCount;
+    }
+);
+}
+
 const resetLeague = () => {
 
     axios.get('reset-league').then(

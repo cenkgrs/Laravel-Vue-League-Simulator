@@ -15,7 +15,7 @@ const props = defineProps(['fixture', 'teams', 'odds', 'weeklyMatchCount']);
         <div class="col-4">
             <h2>Point Table</h2>
 
-            <DataTable :value="props.teams" stripedRows responsiveLayout="scroll">
+            <DataTable :value="props.teams" sortField="points" :sortOrder="-1" stripedRows responsiveLayout="scroll">
                 <Column field="name" header="Team"></Column>
                 <Column field="points" header="P"></Column>
                 <Column field="wins" header="W"></Column>
